@@ -22,9 +22,11 @@ if [ $? -ne 0 ]; then
   apt-get update
   apt-get install -y puppet-agent
 fi
-/opt/puppetlabs/bin/puppet apply /home/vagrant/git.pp
 EOF
 Vagrant.configure("2") do |config|
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_guest = true
+
   config.vm.define "centos" do |centos|
     centos.vm.box = "centos/7"
     centos.vm.provision "shell", inline: $rhel
@@ -36,12 +38,13 @@ Vagrant.configure("2") do |config|
   config.vm.define "debian" do |debian|
     debian.vm.box = "debian/buster64"
     debian.vm.provision "shell", inline: $debian
-    debian.vm.hostname = "cookbook.example.com"
+    debian.vm.hostname = "debian.example.com"
+    debian.vm.network "private_network", ip: "192.168.50.200",
+      virtualbox__intnet: "puppet"
   end
 
   config.vm.define "git" do |git|
     git.vm.box = "debian/buster64"
-    git.vm.provision "file", source: "git.pp", destination: "/home/vagrant/git.pp"
     git.vm.provision "shell", inline: $git
     git.vm.hostname = "git.example.com"
     git.vm.network "private_network", ip: "192.168.50.5",
@@ -59,11 +62,16 @@ Vagrant.configure("2") do |config|
   config.vm.define "puppet" do |puppet|
     puppet.vm.box = "centos/7"
     puppet.vm.provision "shell", inline: $rhel
+    puppet.vm.provision "puppet" do |puppet|
+      puppet.manifests_path = "install/manifests"
+      puppet.manifest_file = "puppetserver.pp"
+    end
     puppet.vm.hostname = "puppet.example.com"
+    puppet.hostmanager.aliases = %w(puppet puppetserver.example.com)
     puppet.vm.network "private_network", ip: "192.168.50.100",
       virtualbox__intnet: "puppet"
     puppet.vm.provider "virtualbox" do |v|
-      v.memory = 1500
+      v.memory = 3000
     end
   end
 end
