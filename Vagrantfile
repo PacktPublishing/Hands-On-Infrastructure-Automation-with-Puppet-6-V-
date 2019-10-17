@@ -37,6 +37,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "debian" do |debian|
     debian.vm.box = "debian/buster64"
+    debian.vbguest.auto_update = false
     debian.vm.provision "shell", inline: $debian
     debian.vm.hostname = "debian.example.com"
     debian.vm.network "private_network", ip: "192.168.50.200",
