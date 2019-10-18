@@ -4,6 +4,7 @@
 $rhel = <<EOF
 yum install -y https://yum.puppet.com/puppet6/puppet6-release-el-7.noarch.rpm
 yum install -y puppet-agent
+yum install -y rubygems
 EOF
 $debian = <<EOF
 dpkg -s puppet-agent >/dev/null

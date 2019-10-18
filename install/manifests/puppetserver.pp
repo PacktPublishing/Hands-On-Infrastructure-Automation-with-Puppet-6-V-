@@ -3,12 +3,14 @@ package {'puppetserver':
 }
 
 file {'sysconfig-puppetserver':
-  ensure => present,
-  path   => '/etc/sysconfig/puppetserver',
-  source => '/vagrant/install/files/sysconfig-puppetserver',
+  ensure  => present,
+  path    => '/etc/sysconfig/puppetserver',
+  source  => '/vagrant/install/files/sysconfig-puppetserver',
+  require => Package['puppetserver'],
 }
 
 service {'puppetserver':
-  ensure => true,
-  enable => true,
+  ensure  => true,
+  enable  => true,
+  require => [Package['puppetserver'],File['sysconfig-puppetserver']],
 }
