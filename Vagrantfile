@@ -31,14 +31,14 @@ Vagrant.configure("2") do |config|
   config.vm.define "centos" do |centos|
     centos.vm.box = "centos/7"
     centos.vm.provision "shell", inline: $rhel
-    centos.vm.hostname = "cookbook.example.com"
+    centos.vm.hostname = "centos.example.com"
     centos.vm.network "private_network", ip: "192.168.50.10",
       virtualbox__intnet: "puppet"
   end
 
   config.vm.define "debian" do |debian|
     debian.vm.box = "debian/buster64"
-    debian.vbguest.auto_update = false
+    #debian.vbguest.auto_update = false
     debian.vm.provision "shell", inline: $debian
     debian.vm.hostname = "debian.example.com"
     debian.vm.network "private_network", ip: "192.168.50.200",
