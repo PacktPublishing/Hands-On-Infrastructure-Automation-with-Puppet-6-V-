@@ -1,0 +1,3 @@
+package {'httpd':
+  ensure => false,
+}
