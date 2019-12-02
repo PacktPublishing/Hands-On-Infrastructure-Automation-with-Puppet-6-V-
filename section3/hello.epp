@@ -1,0 +1,3 @@
+Hello World!
+Webserver created by Puppet <%= $::puppetversion -%>.
+
