@@ -1,0 +1,5 @@
+<html>
+<body>
+<%= $::hostname -%> 
+</body>
+</html>

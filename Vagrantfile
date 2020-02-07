@@ -6,11 +6,22 @@ yum install -y https://yum.puppet.com/puppet6/puppet6-release-el-7.noarch.rpm
 yum install -y puppet-agent
 yum install -y rubygems
 EOF
+
 $debian = <<EOF
 dpkg -s puppet-agent >/dev/null
 if [ $? -ne 0 ]; then
   wget http://apt.puppet.com/puppet6-release-buster.deb
   dpkg -i puppet6-release-buster.deb
+  apt-get update
+  apt-get install -y puppet-agent
+fi
+EOF
+
+$ubuntu = <<EOF
+dpkg -s puppet-agent >/dev/null
+if [ $? -ne 0 ]; then
+  wget http://apt.puppet.com/puppet6-release-bionic.deb
+  dpkg -i puppet6-release-bionic.deb
   apt-get update
   apt-get install -y puppet-agent
 fi
@@ -36,12 +47,13 @@ Vagrant.configure("2") do |config|
       virtualbox__intnet: "puppet"
   end
 
-  config.vm.define "debian" do |debian|
-    debian.vm.box = "debian/buster64"
-    #debian.vbguest.auto_update = false
-    debian.vm.provision "shell", inline: $debian
-    debian.vm.hostname = "debian.example.com"
-    debian.vm.network "private_network", ip: "192.168.50.200",
+  config.vm.define "ubuntu" do |ubuntu|
+    ubuntu.vm.box = "ubuntu/bionic64"
+    ubuntu.vbguest.auto_update = false
+    ubuntu.vm.provision "shell", inline: $ubuntu
+    ubuntu.vm.hostname = "ubuntu.example.com"
+    ubuntu.vm.network "forwarded_port", guest: 80, host: 8080
+    ubuntu.vm.network "private_network", ip: "192.168.50.200",
       virtualbox__intnet: "puppet"
   end
 
