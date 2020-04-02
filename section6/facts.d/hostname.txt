@@ -1,0 +1,2 @@
+hostname=foo
+fqdn=foo.foo.com
