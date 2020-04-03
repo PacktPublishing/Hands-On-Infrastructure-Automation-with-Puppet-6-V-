@@ -1,0 +1,6 @@
+---
+message: "64-bit seems pretty cool!"
+messages:
+  - "from x86_64"
+classes:
+  - x86_64

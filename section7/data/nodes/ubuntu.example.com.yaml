@@ -1,0 +1,2 @@
+---
+role::cms::docroot: '/var/www/fromnodes-ubuntu'
