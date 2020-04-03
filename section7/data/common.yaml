@@ -1,0 +1,6 @@
+---
+role::cms::docroot: "/var/www/fromcommon"
+messages:
+  - 'from common'
+classes:
+  - common

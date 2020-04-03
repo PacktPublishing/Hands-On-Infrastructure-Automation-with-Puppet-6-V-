@@ -1,0 +1,4 @@
+---
+message: "Debian based systems use amd64 for 64bit, even for Intel CPUs"
+classes:
+  - amd64

@@ -1,0 +1,6 @@
+---
+message: Red Hat Enterprise Linux (maybe)
+messages:
+ - "from RedHat"
+classes:
+ - redhat
